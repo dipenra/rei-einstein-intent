@@ -76,4 +76,7 @@ typings/
 .fusebox/
 
 #DynamoDB Local files 
-.dynamodb/ 
+.dynamodb/
+
+#SASS
+.sass-cache 
