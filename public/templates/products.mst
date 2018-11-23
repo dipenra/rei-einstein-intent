@@ -1,0 +1,31 @@
+{{#items}}
+	<li class="item">
+		<div class="image-wrapper">
+			<a href="{{link}}">
+				<img src="{{thumbnailImageLink}}" alt="{{title}}"/>
+			</a>
+		</div>
+
+		<div class="options">{{options}}</div>
+
+		<div>
+			<a href="{{link}}">
+				<span class="brand">{{brand}}</span><br/>
+				{{title}}
+			</a>
+		</div>
+
+		<div class="price {{priceType}}">
+			<span class="discount">{{salePrice}}</span>
+			<span class="regular">{{price}}</span>
+			<p>{{savingsPercent}}</p>
+		</div>
+
+		<div class="ratings-wrapper">
+			<div class="ratings">
+				<span>☆☆☆☆☆</span>
+				<span class="rate" style="width: {{ratingPercent}}%">☆☆☆☆☆</span>
+			</div>({{reviewCount}})
+		</div>
+	</li>
+{{/items}}
