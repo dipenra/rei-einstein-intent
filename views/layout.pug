@@ -2,6 +2,17 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/css/style.css')
+    meta(description="This is a SalesForce Einstein Intent enabled seach, which extracts the user's intent on the seach and redirect them to the proper page or website.")
+    meta(keywords="REI, Einstein, Einstein Intent, SalesForce, Sales Force")
+    meta(author="Dipenra Rai")
+    meta(viewport="width=device-width,initial-scale=1,minimum-scale=1,user-scalable=yes")
+    meta(robots="noindex")
+
+    if settings.env == 'development'
+      link(rel='stylesheet', href='/css/main.css')
+    else
+      link(rel='stylesheet', href='/css/main.min.css')
   body
+    include includes/head.pug
     block content
+    include includes/footer.pug
