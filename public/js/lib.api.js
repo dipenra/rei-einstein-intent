@@ -1,11 +1,18 @@
 /**
- * Products Library
- * This Handles calls to local API
+ * API Library
+ * This Handles API calls
  */
 var ReiEinstein = ReiEinstein || {};
 
 ReiEinstein.Api = function() {
 
+	/**
+	 * fetchProducts
+	 * Fetches REI products
+	 * @param {String} search 
+	 * @param {Number} page 
+	 * @param {Number} limit 
+	 */
 	function fetchProducts(search, page, limit) {
 		var df = $.Deferred();
 		var url = '/api/v1/rei-search';
@@ -32,6 +39,11 @@ ReiEinstein.Api = function() {
 		return df.promise();
 	}
 
+	/**
+	 * fetchIntent
+	 * fetches the intent of the user by calling Einstein Intent
+	 * @param {String} search 
+	 */
 	function fetchIntent(search) {
 		var df = $.Deferred();
 		var url = '/api/v1/einstein-intent';

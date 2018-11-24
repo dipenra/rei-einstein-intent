@@ -1,17 +1,20 @@
+/**
+ * Contains all the Index page related actions
+ */
 $(function(){
 	//page data that are local to this page
 	var pageData = {
-		xhr: false,
-		pagination: 1,
-		limit: 30,
-		endofrecord: false, //If xhr status is 404 set this to true, since there are no other test data
-		currentSearch: 'camping'
+		xhr: false, //set to TRUE if xhr is making a request
+		pagination: 1, //tracks search page count
+		limit: 30, //search limit per page
+		endofrecord: false, //TRUE is search does not return any data
+		currentSearch: 'camping' //Default arbitrary search text that loads when the page initially loads
 	};
 
 	$(window).on('scroll', windowScrollHandler).scroll();
 	$('header').on('submit', 'form[name="search-form"]', submitSearchFormHandler);
 
-	//load initial products
+	//load initial search products
 	fetchProductData(true);
 
 	/* handlers */
@@ -21,41 +24,31 @@ $(function(){
 		}
 	}
 
+	/**
+	 * submitSearchFormHandler
+	 * Handles form submission and processes search Intent 
+	 */
 	function submitSearchFormHandler(e) {
 		e.preventDefault();
 
 		var search = $(this).find('input[name="search"]').val();
-		var Api = new ReiEinstein.Api();
 
 		resetPageData();
 		resetSearchList();
 		showLoader();
 		pageData.currentSearch = search;
-		/**
-		 * performs the correct action depending on the intent
-		 * looking at their intent
-		 */
-		function doIntent(r) {
-			switch(r.intent.label) {
-				case 'Shopping':
-					fetchProductData(true);
-				break;
-				default:
-					hideLoader();
-					showEinsteinIntent(r);
-					fetchProductData(false);
-				break;
-			}
-		}
-
-		Api.fetchIntent(search).done(doIntent).fail(function(){
-			fetchProductData(true);
-		});
+		
+		processIntent();
 	}
 
-	/* functions */
+	/* Functions */
+
+	/**
+	 * isPageBottom
+	 * Checks if the the scroll position is at the bottom of the page
+	 * @return: {Boolean} - TRUE if at scroll is at bottom
+	 */
 	function isPageBottom() {
-		// Fetch variables
 		var scrollTop = $(document).scrollTop();
 		var windowHeight = $(window).height();
 		var bodyHeight = $(document).height() - windowHeight;
@@ -65,6 +58,41 @@ $(function(){
 		return (scrollPercentage > 0.9);
 	}
 
+	/**
+	 * processIntent
+	 * Gets the user Intent and calls the right actions for the intent
+	 */
+	function processIntent() {
+		var Api = new ReiEinstein.Api();
+		/**
+		 * Loads the correct methods depending on the search intent
+		 */
+		function doIntent(r) {
+			switch(r.intent.label) {
+				case 'Shopping':
+					fetchProductData(true);
+				break;
+				default: //defaults currently are all the REI Project APP Intents
+					hideLoader();
+					showEinsteinIntent(r);
+					fetchProductData(false);
+				break;
+			}
+		}
+
+		/**
+		 * Get the intent of the user
+		 */
+		Api.fetchIntent(pageData.currentSearch).done(doIntent).fail(function(){
+			fetchProductData(true);
+		});
+	}
+	
+	/**
+	 * fetchProductData
+	 * Calls Product API with the search text and renders page with the returned data
+	 * @param {Boolean} resetPage - Set to TRUE to overwrite html elements FALSE to append
+	 */
 	function fetchProductData(resetPage) {
 		if(pageData.endofrecord) return;
 
@@ -100,6 +128,12 @@ $(function(){
 		);
 	}
 
+	/**
+	 * renderProductItems
+	 * @param {ARRAY} data - Array of JSON Product data 
+	 * @param {Boolean} resetPage - Set to TRUE to overwrite html elements FALSE to append
+	 * 
+	*/
 	function renderProductItems(data, resetPage) {
 		$.when($.ajax({url: 'templates/products.mst', dataType: 'text'}))
 		.done(function(template){
@@ -113,34 +147,63 @@ $(function(){
 		});
 	}
 
+	/** 
+	 * renderNoProductFound
+	 * Renders No Data Found Element
+	 */
 	function renderNoProductFound() {
 		$('#itemsList').html('<li><h2>No Data Found</h2></li>');
 	}
 
+	/**
+	 * resetPageData
+	 * Resets page data to defaults
+	 */
 	function resetPageData(){
 		pageData.xhr = false;
 		pageData.pagination = 1;
 		pageData.endofrecord = false;
 	}
 
+	/**
+	 * resetSearchList
+	 * removes All the list elements from the List container
+	 */
 	function resetSearchList() {
 		$('#itemsList').html('');
 	}
 
+	/**
+	 * showLoader
+	 * Appends and displays the loader element
+	 */
 	function showLoader() {
 		if(!$('#loader').length) {
 			$('#itemsWrapper').append('<div class="loader" id="loader"></div>');
 		}
 	}
 
+	/**
+	 * hideLoader
+	 * Removes the loader element
+	 */
 	function hideLoader() {
 		$('#itemsWrapper #loader').remove();
 	}
 
+	/**
+	 * changeSearchTitle
+	 * Updates search title with the current search
+	 */
 	function changeSearchTitle() {
 		$('#searchTitle').html('Results for "' + pageData.currentSearch + '"');
 	}
 
+	/**
+	 * showEinsteinIntent
+	 * Displays the project app template in the search result
+	 * @param {JSON} data 
+	 */
 	function showEinsteinIntent(data) {
 		$.when($.ajax({url: 'templates/einstein-intent.mst', dataType: 'text'}))
 		.done(function(template){
