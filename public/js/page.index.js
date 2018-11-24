@@ -5,7 +5,7 @@ $(function(){
 		pagination: 1,
 		limit: 30,
 		endofrecord: false, //If xhr status is 404 set this to true, since there are no other test data
-		currentSearch: 'camping gears'
+		currentSearch: 'camping'
 	};
 
 	$(window).on('scroll', windowScrollHandler).scroll();
@@ -77,7 +77,7 @@ $(function(){
 		function fail(r) {
 			pageData.xhr = false;
 			pageData.endofrecord = true;
-			if(pageData.pagination == 1) {
+			if(pageData.pagination == 1 && resetPage) {
 				renderNoProductFound();
 			}
 		}
