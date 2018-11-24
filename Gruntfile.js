@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 	  	clean: {
-			all: ['public/css/*.min.css', 'public/js/*.min.js']
+			all: ['public/dist/css/*.min.css', 'public/dist/js/*.min.js']
 		},
 		jshint: {
 			all: ['Gruntfile.js', 'public/js/*.js']
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 					expand: true,
 					cwd: 'public/css',
 					src: ['*.css', '!*.min.css'],
-					dest: 'public/css',
+					dest: 'public/dist/css',
 					ext: '.min.css'
 				}]
 			}
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					src: ['public/js/*.js', '!*.min.js'],
-					dest: 'public/',
+					dest: 'public/dist/',
 					cwd: '.',
 					rename: function (dst, src) {
 						var file = src.replace('public/', '');

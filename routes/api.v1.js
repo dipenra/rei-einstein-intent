@@ -9,6 +9,10 @@ function sendError(res, status, error) {
   res.status(status).send({'success': 0, 'error': error.toString()});
 }
 
+/**
+ * REI Search
+ * Routes for REI search API 
+ */
 router.post('/rei-search', function(req, res, next) {
   const schema = {
       search: Joi.string().required(),
@@ -33,6 +37,10 @@ router.post('/rei-search', function(req, res, next) {
   
 });
 
+/**
+ * Einstein Intent
+ * Routes for Einstein Intent API 
+ */
 router.post('/einstein-intent', function(req, res, next) {
   const schema = {
       search: Joi.string().required()

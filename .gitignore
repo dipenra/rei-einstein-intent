@@ -79,4 +79,7 @@ typings/
 .dynamodb/
 
 #SASS
-.sass-cache 
+.sass-cache
+
+#Distributed directory
+/public/dist
