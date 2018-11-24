@@ -4,10 +4,14 @@
 		"mixins"
 ;
 
+* {
+	box-sizing: border-box;
+}
 body {
 	font-family: $font-stack;
 	font-size: 16px;
 	color: $font-color1;
+	min-height: 100vh;
 }
 a {
 	text-decoration: none;
@@ -15,6 +19,26 @@ a {
 }
 a:hover {
 	text-decoration: underline;
+}
+h1 {
+	font-size: 1.6em;
+	font-weight: 600;
+	padding: 10px 20px;
+}
+h2 {
+	font-size: 1.5em;
+	font-weight: 600;
+	padding: 10px 20px;
+}
+.loader {
+	display: block;
+	width: 100%;
+	height: 42px;
+	background-image: url("/images/ajax-loader.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+	padding-top: 30px;
+	padding-bottom: 50px;
 }
 
 /** header **/
@@ -41,7 +65,7 @@ header {
 		color: $font-color2;
 		border: 0;
 		padding: 10px;
-		box-sizing: border-box;
+		// box-sizing: border-box;
 	}
 	@include placeholder {
 		color: $font-color2;
@@ -49,6 +73,9 @@ header {
 }
 
 /* items */
+.items-wrapper {
+	min-height: 400px;
+}
 .items {
 	list-style: none;
 	display: flex;
@@ -59,7 +86,6 @@ header {
 	.item {
 		width: 200px;
 		text-align: center;
-		box-sizing: border-box;
 		padding: 10px 10px;
 		font-size: 0.875em;
 		overflow: hidden;
@@ -67,28 +93,56 @@ header {
 }
 
 .item {
-	> div {
-		padding-bottom: 8px;
-	}
-	.image-wrapper {
-		overflow: hidden;
-	}
-	.options {
-		color: $font-color4;
-		font-size: 0.857em;
-		padding-bottom: 5px;
-	}
-	.brand {
-		font-weight: 600;
-		font-size: 0.929em;
-		color: $font-color5;
-	}
-	.sale-price {
-		.discount {
-			color: $font-color3;
+	article {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		> div {
+			padding-bottom: 8px;
 		}
-		.regular{
-			text-decoration: line-through;
+
+		.image-wrapper {
+			overflow: hidden;
+			position: relative;
+			top: 0;
+			left: 0;
+			&:before {
+				padding-bottom: 100%;
+				content: "";
+				display: block;
+				height: 0;
+			}
+			.image {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				top: 0;
+				left: 0;
+				img {
+					visibility: hidden;
+				}
+			}
+		}
+		.options {
+			color: $font-color4;
+			font-size: 0.857em;
+			padding-bottom: 5px;
+		}
+		.brand {
+			font-weight: 600;
+			font-size: 0.929em;
+			color: $font-color5;
+		}
+		.sale-price {
+			.discount {
+				color: $font-color3;
+			}
+			.regular{
+				text-decoration: line-through;
+			}
 		}
 	}
 }
@@ -122,6 +176,9 @@ footer {
 	width: 100%;
 	height: 40px;
 	color: $font-color2;
+	position: fixed;
+	bottom: 0;
+	left: 0;
 }
 
 /* media */

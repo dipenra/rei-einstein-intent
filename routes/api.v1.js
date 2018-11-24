@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const reiProducts = require('../lib/reiProducts');
+const einsteinIntent = require('../lib/einsteinIntent');
+
+
+function sendError(res, status, error) {
+  res.status(status).send({'success': 0, 'error': error.toString()});
+}
 
 router.post('/rei-search', function(req, res, next) {
   const schema = {
@@ -11,8 +17,7 @@ router.post('/rei-search', function(req, res, next) {
   };
   const result = Joi.validate(req.body, schema);
   if(result.error) {
-    //returning just the first error message
-    res.status(400).send(result.error.details[0].message);
+    sendError(res, 400, result.error.details[0].message);
     return;
   }
 
@@ -23,8 +28,27 @@ router.post('/rei-search', function(req, res, next) {
   rei.fetch(req.body.search, page, limit).then(function(result) {
       res.send({'success' : 1, 'data': result});
   }, function(err) {
-      console.log(err);
-      next(err);
+      sendError(res, 500, err);
+  });
+  
+});
+
+router.post('/einstein-intent', function(req, res, next) {
+  const schema = {
+      search: Joi.string().required()
+  };
+  const result = Joi.validate(req.body, schema);
+  if(result.error) {
+    //returning just the first error message
+    sendError(res, 400, result.error.details[0].message);
+    return;
+  }
+
+  var einstein = new einsteinIntent();
+  einstein.getUserIntent(req.body.search).then(function(result) {
+    res.send({'success' : 1, 'data': {'search': req.body.search, 'einstein-response' : result, 'intent': einstein.getIntent(result)}});
+  }, function(err) {
+    sendError(res, 500, err);
   });
   
 });

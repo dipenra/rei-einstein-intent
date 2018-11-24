@@ -1,31 +1,38 @@
 {{#items}}
 	<li class="item">
-		<div class="image-wrapper">
-			<a href="{{link}}">
-				<img src="{{thumbnailImageLink}}" alt="{{title}}"/>
-			</a>
-		</div>
+		<article>
+			<div class="image-wrapper">
+				<!-- opening page in new tab to not obstruct demo -->
+				<!-- <a href="{{link}}" target="_blank">
+					<img src="{{thumbnailImageLink}}" alt="{{title}}"/>
+				</a>  -->
+				<div class="image" style="background-image: url({{thumbnailImageLink}});">
+					<img src="{{thumbnailImageLink}}" />
+				</div>
+			</div>
 
-		<div class="options">{{options}}</div>
+			<div class="options">{{options}}</div>
 
-		<div>
-			<a href="{{link}}">
-				<span class="brand">{{brand}}</span><br/>
-				{{title}}
-			</a>
-		</div>
+			<div>
+				<!-- opening page in new tab to not obstruct demo -->
+				<a href="{{link}}" target="_blank">
+					<span class="brand">{{brand}}</span><br/>
+					{{title}}
+				</a>
+			</div>
 
-		<div class="price {{priceType}}">
-			<span class="discount">{{salePrice}}</span>
-			<span class="regular">{{price}}</span>
-			<p>{{savingsPercent}}</p>
-		</div>
+			<div class="price {{priceType}}">
+				<span class="discount">{{salePrice}}</span>
+				<span class="regular">{{price}}</span>
+				<p>{{savingsPercent}}</p>
+			</div>
 
-		<div class="ratings-wrapper">
-			<div class="ratings">
-				<span>☆☆☆☆☆</span>
-				<span class="rate" style="width: {{ratingPercent}}%">☆☆☆☆☆</span>
-			</div>({{reviewCount}})
-		</div>
+			<div class="ratings-wrapper">
+				<div class="ratings">
+					<span>☆☆☆☆☆</span>
+					<span class="rate" style="width: {{ratingPercent}}%">☆☆☆☆☆</span>
+				</div>({{reviewCount}})
+			</div>
+		</article>
 	</li>
 {{/items}}

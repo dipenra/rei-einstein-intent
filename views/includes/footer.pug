@@ -1,18 +1,11 @@
 footer
 
-//- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-//- 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-//- 		<script src="dist/static/js/lib.products.js"></script>
-//- 		<script src="dist/static/js/lib.einstein.js"></script>
-//- 		<script src="dist/static/js/lib.redirectpage.js"></script>
-//- 		<script src="dist/static/js/page.index.js"></script>
-
 script(src='https://code.jquery.com/jquery-3.3.1.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js')
 
 if settings.env == 'development'
-	script(src='/js/lib.einstein.js')
-	script(src='/js/lib.products.js')
+	script(src='/js/lib.api.js')
 	script(src='/js/page.index.js')
 else
+	script(src='/js/lib.api.min.js')
 	script(src='/js/page.index.min.js')

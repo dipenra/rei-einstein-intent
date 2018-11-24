@@ -3,35 +3,54 @@ $(function(){
 	var pageData = {
 		xhr: false,
 		pagination: 1,
+		limit: 30,
 		endofrecord: false, //If xhr status is 404 set this to true, since there are no other test data
+		currentSearch: 'camping gears'
 	};
 
-	$(window).on("scroll", windowScrollHandler).scroll();
-	$("header").on("submit", "form[name='search-form']", submitSearchFormHandler);
+	$(window).on('scroll', windowScrollHandler).scroll();
+	$('header').on('submit', 'form[name="search-form"]', submitSearchFormHandler);
 	
 	//load initial products
-	fetchProductData();
+	fetchProductData(true);
 
 	/* handlers */
 	function windowScrollHandler() {
 		if(isPageBottom() && !pageData.xhr) {
-			fetchProductData();
+			fetchProductData(false);
 		}
 	}
 
 	function submitSearchFormHandler(e) {
 		e.preventDefault();
-		// var search = $(this).find("input[name='search']").val();
-		// var Einstein = new ReiEinstein.Einstein();
 
-		// function done(r) {
-		// 	var intent = Einstein.getIntent(r);
-		// 	//redirect the page
-		// 	var RedirectPage = new ReiEinstein.RedirectPage();
-		// 	RedirectPage.redirect(intent, search);
-		// }
-		// Einstein.getUserIntent(search).done(done);
+		var search = $(this).find('input[name="search"]').val();
+		var Api = new ReiEinstein.Api();
 
+		resetPageData();
+		resetSearchList();
+		showLoader();
+		pageData.currentSearch = search;
+		/**
+		 * performs the correct action depending on the intent
+		 * looking at their intent
+		 */
+		function doIntent(r) {
+			switch(r.intent) {
+				case 'Shopping':
+					fetchProductData(true);
+				break;
+				default:
+					hideLoader();
+					showEinsteinIntent(r);
+					fetchProductData(false);
+				break;
+			}
+		}
+
+		Api.fetchIntent(search).done(doIntent).fail(function(){
+			fetchProductData(true);
+		});
 	}
 
 	/* functions */
@@ -46,35 +65,83 @@ $(function(){
 		return (scrollPercentage > 0.9);
 	}
 
-	function fetchProductData() {
+	function fetchProductData(resetPage) {
 		if(pageData.endofrecord) return;
 
-		var Products = new ReiEinstein.Products();
+		var Api = new ReiEinstein.Api();
 		function done(r) {
-			renderProductItems(r);
+			renderProductItems(r, resetPage);
 			pageData.pagination++;
 			pageData.xhr = false;
 		}
 		function fail(r) {
-			if(r && typeof r.status != "undefined") {
-				if(r.status==404) {
-					pageData.endofrecord = true;
-				}
-			}
 			pageData.xhr = false;
+			pageData.endofrecord = true;
+			if(pageData.pagination == 1) {
+				renderNoProductFound();
+			}
 		}
+		showLoader();
 		pageData.xhr = true;
-		Products.fetchProducts(pageData.pagination).done(done).fail(fail);
+
+		Api.fetchProducts(pageData.currentSearch, pageData.pagination, pageData.limit)
+			.done(done)
+			.fail(fail)
+			.always(function(){
+				hideLoader();
+				changeSearchTitle();
+			}
+		);
 	}
 
-	function renderProductItems(data) {
-		$.when($.ajax({url: "templates/products.mst", dataType: 'text'}))
+	function renderProductItems(data, resetPage) {
+		$.when($.ajax({url: 'templates/products.mst', dataType: 'text'}))
 		.done(function(template){
 			Mustache.parse(template);
 			var $html = $(Mustache.render(template, {items: data}));
-			console.log($html);
-			$("#itemsList").append($html);
+			if(resetPage) {
+				$('#itemsList').html($html);
+			} else {
+				$('#itemsList').append($html);
+			}
 		});
 	}
 
+	function renderNoProductFound() {
+		$('#itemsList').html('<li><h2>No Data Found</h2></li>');
+	}
+
+	function resetPageData(){
+		pageData.xhr = false;
+		pageData.pagination = 1;
+		pageData.endofrecord = false;
+	}
+
+	function resetSearchList() {
+		$('#itemsList').html('');
+	}
+
+	function showLoader() {
+		if(!$('#loader').length) {
+			$('#itemsWrapper').append('<div class="loader" id="loader"></div>');
+		}
+	}
+
+	function hideLoader() {
+		$('#itemsWrapper #loader').remove();
+	}
+
+	function changeSearchTitle() {
+		$('#searchTitle').html('Results for "' + pageData.currentSearch + '"');
+	}
+
+	function showEinsteinIntent(data) {
+		$.when($.ajax({url: 'templates/einstein-intent.mst', dataType: 'text'}))
+		.done(function(template){
+			Mustache.parse(template);
+			var tdata = {link: 'http://cnn.com', thumbnailImageLink: '/images/hiking.jpg', title:'something', brand:'mountain biking'};
+			var $html = $(Mustache.render(template, tdata));
+			$('#itemsList').html($html);
+		});
+	}
 });

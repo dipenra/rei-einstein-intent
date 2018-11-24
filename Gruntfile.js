@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 	  	clean: {
-			all: ['public/css/', 'public/js/']
+			all: ['public/css/*.min.css', 'public/js/*.min.js']
 		},
 		jshint: {
 			all: ['Gruntfile.js', 'public/js/*.js']
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 			all: {
 				files: [{
 					expand: true,
-					src: ['public/js/*.js'],
+					src: ['public/js/*.js', '!*.min.js'],
 					dest: 'public/',
 					cwd: '.',
 					rename: function (dst, src) {
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			all: {
-				files: ['public/scss/*.scss', 'public/js/*.js'],
+				files: ['public/scss/*.scss', 'public/js/*.js', '!public/*/*.min.*'],
 				tasks: ['default']
 			}
 		}
@@ -65,6 +65,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	
 	// Default task(s).
-	grunt.registerTask('default', ['jshint','sass', 'cssmin', 'uglify']);
+	grunt.registerTask('default', ['clean', 'jshint','sass', 'cssmin', 'uglify']);
   
   };
