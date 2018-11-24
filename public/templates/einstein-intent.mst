@@ -3,9 +3,11 @@
 	<article>
 		<div class="image-wrapper">
 			<!-- opening page in new tab to not obstruct demo -->
-			<div class="image" style="background-image: url({{thumbnailImageLink}});">
-				<img src="{{thumbnailImageLink}}" />
-			</div>
+			<a href="{{link}}" target="_blank">
+				<div class="image" style="background-image: url({{thumbnailImageLink}});">
+					<img src="{{thumbnailImageLink}}" />
+				</div>
+			</a>
 		</div>
 
 		<div class="options">{{options}}</div>
@@ -13,22 +15,10 @@
 		<div>
 			<!-- opening page in new tab to not obstruct demo -->
 			<a href="{{link}}" target="_blank">
-				<span class="brand">{{brand}}</span><br/>
-				{{title}}
+				<span class="brand">{{brand}}</span>
 			</a>
-		</div>
-
-		<div class="price {{priceType}}">
-			<span class="discount">{{salePrice}}</span>
-			<span class="regular">{{price}}</span>
-			<p>{{savingsPercent}}</p>
-		</div>
-
-		<div class="ratings-wrapper">
-			<div class="ratings">
-				<span>☆☆☆☆☆</span>
-				<span class="rate" style="width: {{ratingPercent}}%">☆☆☆☆☆</span>
-			</div>({{reviewCount}})
+			<br/>
+			{{text}}
 		</div>
 	</article>
 </li>

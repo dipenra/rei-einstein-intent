@@ -46,7 +46,7 @@ router.post('/einstein-intent', function(req, res, next) {
 
   var einstein = new einsteinIntent();
   einstein.getUserIntent(req.body.search).then(function(result) {
-    res.send({'success' : 1, 'data': {'search': req.body.search, 'einstein-response' : result, 'intent': einstein.getIntent(result)}});
+    res.send({'success' : 1, 'data': {'search': req.body.search, 'einstein_response' : result, 'intent': einstein.getIntent(result)}});
   }, function(err) {
     sendError(res, 500, err);
   });

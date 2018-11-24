@@ -10,7 +10,7 @@ $(function(){
 
 	$(window).on('scroll', windowScrollHandler).scroll();
 	$('header').on('submit', 'form[name="search-form"]', submitSearchFormHandler);
-	
+
 	//load initial products
 	fetchProductData(true);
 
@@ -36,7 +36,7 @@ $(function(){
 		 * looking at their intent
 		 */
 		function doIntent(r) {
-			switch(r.intent) {
+			switch(r.intent.label) {
 				case 'Shopping':
 					fetchProductData(true);
 				break;
@@ -139,7 +139,13 @@ $(function(){
 		$.when($.ajax({url: 'templates/einstein-intent.mst', dataType: 'text'}))
 		.done(function(template){
 			Mustache.parse(template);
-			var tdata = {link: 'http://cnn.com', thumbnailImageLink: '/images/hiking.jpg', title:'something', brand:'mountain biking'};
+			var tdata = {
+				link: data.intent.link, 
+				thumbnailImageLink: data.intent.image, 
+				title:'something', 
+				brand: data.intent.label,
+				text: 'Einstein Intent matches ' + data.intent.label + ' with ' + data.einstein_response.probabilities[0].probability + ' probability'
+			};
 			var $html = $(Mustache.render(template, tdata));
 			$('#itemsList').html($html);
 		});

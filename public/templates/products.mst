@@ -3,12 +3,11 @@
 		<article>
 			<div class="image-wrapper">
 				<!-- opening page in new tab to not obstruct demo -->
-				<!-- <a href="{{link}}" target="_blank">
-					<img src="{{thumbnailImageLink}}" alt="{{title}}"/>
-				</a>  -->
-				<div class="image" style="background-image: url({{thumbnailImageLink}});">
-					<img src="{{thumbnailImageLink}}" />
-				</div>
+				<a href="{{link}}" target="_blank">
+					<div class="image" style="background-image: url({{thumbnailImageLink}});">
+						<img src="{{thumbnailImageLink}}" />
+					</div>
+				</a>
 			</div>
 
 			<div class="options">{{options}}</div>
@@ -16,7 +15,8 @@
 			<div>
 				<!-- opening page in new tab to not obstruct demo -->
 				<a href="{{link}}" target="_blank">
-					<span class="brand">{{brand}}</span><br/>
+					<span class="brand">{{brand}}</span>
+					<br/>
 					{{title}}
 				</a>
 			</div>

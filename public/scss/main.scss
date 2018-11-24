@@ -75,6 +75,7 @@ header {
 /* items */
 .items-wrapper {
 	min-height: 400px;
+	padding-bottom: 70px;
 }
 .items {
 	list-style: none;
@@ -97,6 +98,7 @@ header {
 		display: flex;
 		flex-direction: column;
 		position: relative;
+		line-height: 1.3em;
 		> div {
 			padding-bottom: 8px;
 		}
@@ -121,6 +123,7 @@ header {
 				width: 100%;
 				top: 0;
 				left: 0;
+				cursor: pointer;
 				img {
 					visibility: hidden;
 				}

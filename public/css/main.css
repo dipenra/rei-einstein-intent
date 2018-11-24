@@ -113,7 +113,8 @@ header {
 
 /* items */
 .items-wrapper {
-  min-height: 400px; }
+  min-height: 400px;
+  padding-bottom: 70px; }
 
 .items {
   list-style: none;
@@ -131,7 +132,8 @@ header {
 .item article {
   display: flex;
   flex-direction: column;
-  position: relative; }
+  position: relative;
+  line-height: 1.3em; }
   .item article > div {
     padding-bottom: 8px; }
   .item article .image-wrapper {
@@ -152,7 +154,8 @@ header {
       height: 100%;
       width: 100%;
       top: 0;
-      left: 0; }
+      left: 0;
+      cursor: pointer; }
       .item article .image-wrapper .image img {
         visibility: hidden; }
   .item article .options {
