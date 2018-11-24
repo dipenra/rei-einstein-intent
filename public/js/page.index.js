@@ -70,9 +70,14 @@ $(function(){
 
 		var Api = new ReiEinstein.Api();
 		function done(r) {
-			renderProductItems(r, resetPage);
-			pageData.pagination++;
-			pageData.xhr = false;
+			if(r.length) {
+				renderProductItems(r, resetPage);
+				pageData.pagination++;
+				pageData.xhr = false;
+			} else {
+				fail();
+			}
+			
 		}
 		function fail(r) {
 			pageData.xhr = false;
@@ -81,6 +86,7 @@ $(function(){
 				renderNoProductFound();
 			}
 		}
+
 		showLoader();
 		pageData.xhr = true;
 
@@ -138,13 +144,15 @@ $(function(){
 	function showEinsteinIntent(data) {
 		$.when($.ajax({url: 'templates/einstein-intent.mst', dataType: 'text'}))
 		.done(function(template){
+			var probability = ((data.einstein_response.probabilities[0].probability)*100).toFixed(2);
+
 			Mustache.parse(template);
 			var tdata = {
 				link: data.intent.link, 
 				thumbnailImageLink: data.intent.image, 
 				title:'something', 
 				brand: data.intent.label,
-				text: 'Einstein Intent matches ' + data.intent.label + ' with ' + data.einstein_response.probabilities[0].probability + ' probability'
+				text: 'Einstein Intent matches ' + data.intent.label + ' with ' + probability + '% probability'
 			};
 			var $html = $(Mustache.render(template, tdata));
 			$('#itemsList').html($html);
