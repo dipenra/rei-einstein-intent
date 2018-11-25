@@ -5,32 +5,32 @@ This is a demo project to show how a website's SEARCH feature can take advantage
 
 # Getting Started
 ## Requirements
-- git
-- NPM
+	- git
+	- NPM
 
-##git
-Intall git from
+## git
 
-https://git-scm.com/downloads
+Intall git from: https://git-scm.com/downloads
 
 OR
+
 Install git through Homebrew:
 
-brew install git
-https://git-scm.com/downloads
+`$brew install git`
 
-##NPM
-Intall NPM from
 
-https://www.npmjs.com/get-npm
+## NPM
 
-##Install & Starting the Project
+Intall NPM from: https://www.npmjs.com/get-npm
 
-`npm install`
 
-`grunt` (`grunt build`)
+## Install & Starting the Project
 
-`npm start`
+`$npm install`
+
+`$grunt build`
+
+`$npm start`
 
 
 ## Technologies Used
