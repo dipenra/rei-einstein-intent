@@ -3,6 +3,9 @@ Testing SalesForce Einstein on REI Search
 
 This is a demo project to show how a website's SEARCH feature can take advantage of Eintein Intent and make educated decision to route users to the right resources.
 
+# Demo
+https://rei-einstein-intent.herokuapp.com/
+
 # Getting Started
 ## Requirements
 	- git
