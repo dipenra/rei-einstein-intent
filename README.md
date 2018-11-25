@@ -73,5 +73,5 @@ If the `token` has experied, please email me for a new one OR one can use their 
 	- curl -X POST -H "Authorization: Bearer <TOKEN>" -H "Cache-Control: no-cache" -H "Content-Type: multipart/form-data" -F "name=Weather Intent Model" -F "datasetId=YOUR-DATASET-ID" https://api.einstein.ai/v2/language/train
 6) Update config in `/lib/einsteinIntent.js` with your `token` and `modelId`
 
-##More on Einstein API
+## More on Einstein API
  API details can be found @ https://metamind.readme.io/docs/
