@@ -50,6 +50,7 @@ Intall NPM from: https://www.npmjs.com/get-npm
 
 - / : root directory. contains most of the config files
 	- /bin : contains startup scripts
+	- /data : data used to train Einstein
 	- /lib : contains custom middleware libraries for the project
 	- /public : contains publicly accessable files 
 		/public/dist : created using grunt task. contains minified js & css files for production env
