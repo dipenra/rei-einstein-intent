@@ -1,9 +1,14 @@
 {
   "name": "rei-einstein-intent",
   "version": "0.0.0",
+  "engines": {
+    "node": "v10.10.0",
+    "npm": "6.x"
+  },
+  "description": "Making REI search smarter with Einstein",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
