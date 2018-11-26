@@ -82,4 +82,4 @@ typings/
 .sass-cache
 
 #Distributed directory
-/public/dist
+#/public/dist
